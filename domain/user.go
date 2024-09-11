@@ -7,13 +7,13 @@ import (
 )
 
 type User struct {
-	Username string `db:"username"`
-	Password string `db:"password"`
-	Name     string `db:"name"`
+	Username string `gorm:"primaryKey; size: 255; not null; unique"`
+	Password string `gorm:"not null; size: 255"`
+	Name     string `gorm:"size: 255"`
 }
 
 type UserRepository interface {
-	Insert(ctx context.Context, user *User) error
+	Insert(ctx context.Context, user *User) (User, error)
 	FindByUsername(ctx context.Context, username string) (User, error)
 	Delete(ctx context.Context, username string) error
 }

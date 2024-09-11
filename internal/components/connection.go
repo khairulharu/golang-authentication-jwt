@@ -18,7 +18,7 @@ func NewDatabaseConnection(cnf *config.Config) *gorm.DB {
 		log.Fatalf("err when connect to database: %s", err.Error())
 	}
 
-	&gorm.Migrator(domain.User)
+	db.AutoMigrate(&domain.User{})
 
 	fmt.Println("database Connnet")
 

@@ -18,9 +18,9 @@ func NewUserRepository(dbGorm *gorm.DB) domain.UserRepository {
 }
 
 // Insert implements domain.UserRepository.
-func (u *userRepository) Insert(ctx context.Context, user *domain.User) error {
-	err := u.dbGorm.Debug().WithContext(ctx).Table("users").Create(user).Error
-	return err
+func (u *userRepository) Insert(ctx context.Context, user *domain.User) (domain.User, error) {
+	err := u.dbGorm.Debug().WithContext(ctx).Table("users").Create(&user).Error
+	return *user, err
 }
 
 // Delete implements domain.UserRepository.

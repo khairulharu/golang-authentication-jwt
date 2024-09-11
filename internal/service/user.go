@@ -6,6 +6,8 @@ import (
 	"github.com/khairulharu/gojwt/domain"
 	"github.com/khairulharu/gojwt/dto"
 	"github.com/khairulharu/gojwt/internal/validator"
+	"golang.org/x/crypto/bcrypt"
+	"gorm.io/gorm"
 )
 
 type userService struct {
@@ -40,13 +42,43 @@ func (u *userService) SignUp(ctx context.Context, request dto.UserRequest) dto.R
 		}
 	}
 
+	checkUserIsSameUsername, err := u.userRepository.FindByUsername(ctx, signUpRequest.Username)
+
+	if err != nil && err != gorm.ErrRecordNotFound {
+		return dto.Response{
+			Code:    500,
+			Message: "Error When Check new User have a same username",
+			Error:   err.Error(),
+		}
+	}
+
+	if checkUserIsSameUsername != (domain.User{}) {
+		return dto.Response{
+			Code:    400,
+			Message: "Chechker Username: Change Username",
+			Error:   err.Error(),
+		}
+	}
+
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(signUpRequest.Password), 10)
+
+	if err != nil {
+		return dto.Response{
+			Code:    500,
+			Message: "Internal Server Error: While Generate Hashing Password",
+			Error:   err.Error(),
+		}
+	}
+
 	user := domain.User{
 		Username: signUpRequest.Username,
-		Password: signUpRequest.Password,
+		Password: string(hashedPassword),
 		Name:     signUpRequest.Name,
 	}
 
-	if err := u.userRepository.Insert(ctx, &user); err != nil {
+	user, err = u.userRepository.Insert(ctx, &user)
+
+	if err != nil {
 		return dto.Response{
 			Code:    500,
 			Message: "Error When Inserted Data",
@@ -56,6 +88,10 @@ func (u *userService) SignUp(ctx context.Context, request dto.UserRequest) dto.R
 
 	return dto.Response{
 		Code:    200,
-		Message: "Success User Created",
+		Message: "Success Create User",
+		Data: dto.UserResponse{
+			Username: user.Username,
+			Name:     user.Name,
+		},
 	}
 }

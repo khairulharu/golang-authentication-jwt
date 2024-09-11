@@ -1,10 +1,16 @@
 package config
 
 import (
+	"log"
 	"os"
+
+	"github.com/joho/godotenv"
 )
 
 func New() *Config {
+	if err := godotenv.Load(); err != nil {
+		log.Fatal("Error loading .env file")
+	}
 	return &Config{
 		Database{
 			Host: os.Getenv("DB_HOST"),

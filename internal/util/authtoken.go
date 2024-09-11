@@ -11,15 +11,15 @@ import (
 var Key = []byte("mysecretkey")
 
 type MyCustomClaims struct {
-	ID   int64  `json:"id"`
-	Name string `json:"name"`
+	Username string `json:"username"`
+	Name     string `json:"name"`
 	jwt.RegisteredClaims
 }
 
-func CreateToken(product *domain.Product) (string, error) {
+func CreateToken(user *domain.User) (string, error) {
 	claims := MyCustomClaims{
-		product.ID,
-		product.Name,
+		user.Username,
+		user.Name,
 		jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(1 * time.Minute)),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),

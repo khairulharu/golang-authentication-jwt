@@ -1,20 +1,25 @@
 package validator
 
 import (
-	"errors"
-
 	"github.com/khairulharu/gojwt/dto"
 )
 
 func ValidateUserRequest(request dto.UserRequest) (validRequest dto.UserRequest, err error) {
-	switch {
-	case request.Name == (""):
-		return dto.UserRequest{}, errors.New("validation Request: name must be define")
-	case request.Username == (""):
-		return dto.UserRequest{}, errors.New("validation Request: username are nil")
-	case request.Password == (""):
-		return dto.UserRequest{}, errors.New("validation Request: password mus define")
-	default:
-		return request, nil
+	type validataeUserRequest struct {
+		Username string `validate:"required,min=1,max=255"`
+		Password string `validate:"required,min=1,max=255"`
+		Name     string `validate:"required,min=1,max=255"`
 	}
+
+	var requestValidation = validataeUserRequest{
+		Username: request.Username,
+		Password: request.Password,
+		Name:     request.Name,
+	}
+
+	if err := validate.Struct(requestValidation); err != nil {
+		return dto.UserRequest{}, err
+	}
+
+	return dto.UserRequest(requestValidation), nil
 }

@@ -31,5 +31,5 @@ func (api *apiUser) SignUp(ctx *fiber.Ctx) error {
 
 	response := api.userService.SignUp(ctx.Context(), request)
 
-	return ctx.Status(200).JSON(response)
+	return ctx.Status(int(response.Code)).JSON(response)
 }
