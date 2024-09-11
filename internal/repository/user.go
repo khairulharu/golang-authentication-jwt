@@ -30,7 +30,12 @@ func (u *userRepository) Delete(ctx context.Context, username string) error {
 }
 
 // FindByUsername implements domain.UserRepository.
-func (u *userRepository) FindByUsername(ctx context.Context, username string) (user domain.User, err error) {
-	err = u.dbGorm.Debug().WithContext(ctx).Table("users").First(&user, &domain.User{Username: username}).Error
-	return
+// Change This
+func (u *userRepository) FindByUsername(ctx context.Context, username string) (domain.User, error) {
+	var user domain.User
+	err := u.dbGorm.Debug().WithContext(ctx).Table("users").Where("username = ?", username).First(&user).Error
+	return user, err
 }
+
+//Mendapatkan nil pointer dereferences, coba perbaiki!!
+//Dan pada halaman findbYusername dan bagian service
