@@ -1,5 +1,6 @@
 #gojwt
 
-implment crud for table product
 
-i using jwt for get product hahahaha
+i create a rest api using golang and implement jwt for authentication
+
+that all you need for this is, clone, and 

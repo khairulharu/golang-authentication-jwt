@@ -55,8 +55,7 @@ func (u *userService) SignUp(ctx context.Context, request dto.UserRequest) dto.R
 	if checkUserIsSameUsername != (domain.User{}) {
 		return dto.Response{
 			Code:    400,
-			Message: "Chechker Username: Change Username",
-			Error:   err.Error(),
+			Message: "Chechker Username: Username or Password invalid",
 		}
 	}
 
