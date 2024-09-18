@@ -49,9 +49,8 @@ func (u *userService) LogIn(ctx context.Context, request dto.LogInRequest) dto.R
 
 	if err := bcrypt.CompareHashAndPassword([]byte(isUserExist.Password), []byte(loginRequest.Password)); err != nil {
 		return dto.Response{
-			Code:    401,
+			Code:    400,
 			Message: "Error Username or Pasword Is Invalid",
-			Error:   err.Error(),
 		}
 	}
 
@@ -67,7 +66,9 @@ func (u *userService) LogIn(ctx context.Context, request dto.LogInRequest) dto.R
 	return dto.Response{
 		Code:    200,
 		Message: "Success",
-		Data:    token,
+		Data: dto.TokenResponse{
+			Token: token,
+		},
 	}
 }
 

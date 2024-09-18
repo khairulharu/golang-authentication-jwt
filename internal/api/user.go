@@ -16,6 +16,7 @@ func NewUserApi(app *fiber.App, userService domain.UserService) {
 	}
 
 	app.Post("/api/signup", userHandler.SignUp)
+	app.Post("/api/login", userHandler.LogIn)
 }
 
 func (api *apiUser) SignUp(ctx *fiber.Ctx) error {
