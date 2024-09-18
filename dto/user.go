@@ -10,8 +10,13 @@ type UserResponseWithToken struct {
 	Token string `json:"token"`
 }
 
-type UserRequest struct {
+type SignUpRequest struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
 	Name     string `json:"name"`
+}
+
+type LogInRequest struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
 }

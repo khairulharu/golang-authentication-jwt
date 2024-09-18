@@ -19,7 +19,7 @@ type UserRepository interface {
 }
 
 type UserService interface {
-	SignUp(ctx context.Context, request dto.UserRequest) dto.Response
-	LogIn(ctx context.Context, request dto.UserRequest) dto.Response
+	SignUp(ctx context.Context, request dto.SignUpRequest) dto.Response
+	LogIn(ctx context.Context, request dto.LogInRequest) dto.Response
 	LogOut(ctx context.Context) dto.Response
 }

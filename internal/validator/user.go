@@ -4,7 +4,7 @@ import (
 	"github.com/khairulharu/gojwt/dto"
 )
 
-func ValidateUserRequest(request dto.UserRequest) (validRequest dto.UserRequest, err error) {
+func ValidateSignUpRequest(request dto.SignUpRequest) (validRequest dto.SignUpRequest, err error) {
 	type validataeUserRequest struct {
 		Username string `validate:"required,min=1,max=255"`
 		Password string `validate:"required,min=1,max=255"`
@@ -18,8 +18,26 @@ func ValidateUserRequest(request dto.UserRequest) (validRequest dto.UserRequest,
 	}
 
 	if err := validate.Struct(requestValidation); err != nil {
-		return dto.UserRequest{}, err
+		return dto.SignUpRequest{}, err
 	}
 
-	return dto.UserRequest(requestValidation), nil
+	return dto.SignUpRequest(requestValidation), nil
+}
+
+func ValidateLogiInRequest(request dto.LogInRequest) (validRequest dto.LogInRequest, err error) {
+	type validataeUserRequest struct {
+		Username string `validate:"required,min=1,max=255"`
+		Password string `validate:"required,min=1,max=255"`
+	}
+
+	var requestValidation = validataeUserRequest{
+		Username: request.Username,
+		Password: request.Password,
+	}
+
+	if err := validate.Struct(requestValidation); err != nil {
+		return dto.LogInRequest{}, err
+	}
+
+	return dto.LogInRequest(requestValidation), nil
 }

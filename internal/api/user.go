@@ -19,7 +19,7 @@ func NewUserApi(app *fiber.App, userService domain.UserService) {
 }
 
 func (api *apiUser) SignUp(ctx *fiber.Ctx) error {
-	var request dto.UserRequest
+	var request dto.SignUpRequest
 
 	if err := ctx.BodyParser(&request); err != nil {
 		return ctx.Status(400).JSON(dto.Response{

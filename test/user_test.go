@@ -70,7 +70,7 @@ func TestUserService(t *testing.T) {
 	userServiceTest := service.NewUserService(userRepositoryTest)
 
 	t.Run("should be to create new user with no invalid data", func(t *testing.T) {
-		request := dto.UserRequest{
+		request := dto.SignUpRequest{
 			Name:     "test",
 			Username: "test",
 			Password: "test",
@@ -84,7 +84,7 @@ func TestUserService(t *testing.T) {
 	})
 
 	t.Run("should reject create data if have same username", func(t *testing.T) {
-		request := dto.UserRequest{
+		request := dto.SignUpRequest{
 			Name:     "ddd",
 			Username: "ddd",
 			Password: "ddd",
